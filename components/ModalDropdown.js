@@ -20,6 +20,7 @@ import {
   TouchableHighlight,
   Modal,
   ActivityIndicator,
+  Image
 } from 'react-native';
 
 import PropTypes from 'prop-types';
@@ -46,6 +47,9 @@ export default class ModalDropdown extends Component {
 
     style: PropTypes.oneOfType([PropTypes.number, PropTypes.object, PropTypes.array]),
     textStyle: PropTypes.oneOfType([PropTypes.number, PropTypes.object, PropTypes.array]),
+    textContainerStyle: PropTypes.object,
+    textContainerIcon: PropTypes.function,
+    textContainerIconStyle: PropTypes.oneOfType([PropTypes.number, PropTypes.object, PropTypes.array]),
     dropdownStyle: PropTypes.oneOfType([PropTypes.number, PropTypes.object, PropTypes.array]),
     dropdownTextStyle: PropTypes.oneOfType([PropTypes.number, PropTypes.object, PropTypes.array]),
     dropdownTextHighlightStyle: PropTypes.oneOfType([PropTypes.number, PropTypes.object, PropTypes.array]),
@@ -163,7 +167,7 @@ export default class ModalDropdown extends Component {
   }
 
   _renderButton() {
-    const {disabled, accessible, children, textStyle} = this.props;
+    const {disabled, accessible, children, textStyle, textContainerStyle, textContainerIcon, textContainerIconStyle } = this.props;
     const {buttonText} = this.state;
 
     return (
@@ -175,12 +179,13 @@ export default class ModalDropdown extends Component {
         {
           children ||
           (
-            <View style={styles.button}>
+            <View style={[styles.button, textContainerStyle && textContainerStyle]}>
               <Text style={[styles.buttonText, textStyle]}
                     numberOfLines={1}
               >
                 {buttonText}
               </Text>
+              {textContainerIcon && <Image style={textContainerIconStyle} source={textContainerIcon} />}
             </View>
           )
         }
